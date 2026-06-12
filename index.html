@@ -6,16 +6,22 @@
     <title>TaskMaster Pro</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
         <header style="position: relative;">
             <h1><i class="fa-solid fa-check-double"></i> TaskMaster</h1>
-            <p>Organize your work, effortlessly.</p>
-            <button id="theme-toggle" class="theme-btn" title="Toggle Theme">
-                <i class="fa-solid fa-sun"></i>
-            </button>
+            <p id="app-subtitle" style="font-style: italic; min-height: 1.5em; transition: opacity 0.3s ease;">Organize your work, effortlessly.</p>
+            <div class="header-toggles">
+                <button id="mode-toggle" class="theme-btn mode-btn" title="Toggle Kids Mode">
+                    <i class="fa-solid fa-child"></i>
+                </button>
+                <button id="theme-toggle" class="theme-btn" title="Toggle Theme">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+            </div>
         </header>
 
         <section class="stats-container">
@@ -78,11 +84,20 @@
                 <!-- Tasks will be injected here -->
             </ul>
             <div class="empty-state" id="empty-state">
-                <i class="fa-regular fa-clipboard"></i>
+                <i class="fa-regular fa-clipboard adult-icon"></i>
+                <div class="kids-icon" style="display: none; font-size: 5rem;">🐶</div>
                 <p>No tasks found.</p>
             </div>
         </section>
     </div>
+
+    <!-- Container for Kids Mode Celebrations -->
+    <div id="celebration-container" class="celebration-container"></div>
+
+    <!-- Kids Mode Decorative Characters -->
+    <div class="kids-character character-1">🦄</div>
+    <div class="kids-character character-2">🦖</div>
+    <div class="kids-character character-3">🚀</div>
 
     <script src="script.js"></script>
 </body>

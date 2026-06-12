@@ -14,10 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
     const filterBtns = document.querySelectorAll('.filter-btn');
     const themeToggleBtn = document.getElementById('theme-toggle');
+    const modeToggleBtn = document.getElementById('mode-toggle');
+    const appSubtitle = document.getElementById('app-subtitle');
 
     // Initialization
-    loadTasks();
     loadTheme();
+    loadAppMode();
+    loadTasks();
 
     // Stats Elements
     const statTotal = document.querySelector('#stat-total .stat-number');
@@ -76,14 +79,82 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggleBtn.addEventListener('click', toggleTheme);
     }
 
+    // Subtitle Quote logic
+    const adultQuotes = [
+        "\"Focus on being productive instead of busy.\" – Tim Ferriss",
+        "\"The secret of getting ahead is getting started.\" – Mark Twain",
+        "\"Nothing is less productive than to make more efficient what should not be done at all.\" – Peter Drucker",
+        "\"It’s not always that we need to do more but rather that we need to focus on less.\" – Nathan W. Morris",
+        "\"Amateurs sit and wait for inspiration, the rest of us just get up and go to work.\" – Stephen King",
+        "\"Action is the foundational key to all success.\" – Pablo Picasso",
+        "\"Either you run the day or the day runs you.\" – Jim Rohn"
+    ];
+
+    function updateSubtitle() {
+        if (!appSubtitle) return;
+        
+        const isKids = document.body.classList.contains('kids-mode');
+        appSubtitle.style.opacity = 0;
+        
+        setTimeout(() => {
+            if (isKids) {
+                appSubtitle.innerText = "Let's have fun organizing our tasks! 🎈";
+            } else {
+                const randomQuote = adultQuotes[Math.floor(Math.random() * adultQuotes.length)];
+                appSubtitle.innerText = randomQuote;
+            }
+            appSubtitle.style.opacity = 1;
+        }, 300);
+    }
+
+    // App Mode logic
+    function loadAppMode() {
+        const savedMode = localStorage.getItem('taskMasterAppMode');
+        if (savedMode === 'kids') {
+            document.body.classList.add('kids-mode');
+            if (modeToggleBtn) modeToggleBtn.innerHTML = '<i class="fa-solid fa-user-tie"></i>';
+        } else {
+            document.body.classList.remove('kids-mode');
+            if (modeToggleBtn) modeToggleBtn.innerHTML = '<i class="fa-solid fa-child"></i>';
+        }
+        updateSubtitle();
+    }
+
+    function toggleAppMode() {
+        document.body.classList.toggle('kids-mode');
+        const isKids = document.body.classList.contains('kids-mode');
+        
+        if (isKids) {
+            localStorage.setItem('taskMasterAppMode', 'kids');
+            modeToggleBtn.innerHTML = '<i class="fa-solid fa-user-tie"></i>';
+        } else {
+            localStorage.setItem('taskMasterAppMode', 'adult');
+            modeToggleBtn.innerHTML = '<i class="fa-solid fa-child"></i>';
+        }
+
+        // Reload tasks for the new mode
+        loadTasks();
+        updateStats();
+        renderTasks();
+        updateSubtitle();
+    }
+
+    if (modeToggleBtn) {
+        modeToggleBtn.addEventListener('click', toggleAppMode);
+    }
+
     // Core Functions
     
     /**
      * Saves the current tasks array to localStorage.
      * This function serializes the tasks array to a JSON string and saves it.
      */
+    function getStorageKey() {
+        return document.body.classList.contains('kids-mode') ? 'taskMasterTasks_kids' : 'taskMasterTasks';
+    }
+
     function saveTasks() {
-        localStorage.setItem('taskMasterTasks', JSON.stringify(tasks));
+        localStorage.setItem(getStorageKey(), JSON.stringify(tasks));
     }
 
     /**
@@ -91,9 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
      * It parses the saved JSON string back into an array of task objects.
      */
     function loadTasks() {
-        const savedTasks = localStorage.getItem('taskMasterTasks');
+        const savedTasks = localStorage.getItem(getStorageKey());
         if (savedTasks) {
             tasks = JSON.parse(savedTasks);
+        } else {
+            tasks = [];
         }
     }
 
@@ -125,15 +198,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleTask(id) {
+        let justCompleted = false;
+        
         tasks = tasks.map(task => {
             if (task.id === id) {
-                return { ...task, completed: !task.completed };
+                const newStatus = !task.completed;
+                if (newStatus) justCompleted = true;
+                return { ...task, completed: newStatus };
             }
             return task;
         });
+        
         saveTasks(); // Save tasks whenever a task is marked as completed or incomplete
         updateStats();
         renderTasks();
+
+        if (justCompleted && document.body.classList.contains('kids-mode')) {
+            triggerCelebration();
+        }
+    }
+
+    function triggerCelebration() {
+        const container = document.getElementById('celebration-container');
+        if (!container) return;
+
+        const messages = ['Great job!', 'You did it!', 'Awesome!', 'Super star!', 'Way to go!'];
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+
+        const celebDiv = document.createElement('div');
+        celebDiv.className = 'celebration-message';
+        celebDiv.innerHTML = `<i class="fa-solid fa-star"></i> <span>${randomMsg}</span> <i class="fa-solid fa-star"></i>`;
+        
+        container.appendChild(celebDiv);
+
+        setTimeout(() => {
+            if (container.contains(celebDiv)) {
+                container.removeChild(celebDiv);
+            }
+        }, 2000);
     }
 
     function deleteTask(id, element) {
