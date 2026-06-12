@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFilter = 'all';
     let currentSearch = '';
 
+    // Load saved tasks from localStorage automatically when the application starts
+    loadTasks();
+
     // DOM Elements
     const taskInput = document.getElementById('task-input');
     const priorityInput = document.getElementById('priority-input');
@@ -43,6 +46,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Core Functions
+    
+    /**
+     * Saves the current tasks array to localStorage.
+     * This function serializes the tasks array to a JSON string and saves it.
+     */
+    function saveTasks() {
+        localStorage.setItem('taskMasterTasks', JSON.stringify(tasks));
+    }
+
+    /**
+     * Loads tasks from localStorage and updates the tasks array.
+     * It parses the saved JSON string back into an array of task objects.
+     */
+    function loadTasks() {
+        const savedTasks = localStorage.getItem('taskMasterTasks');
+        if (savedTasks) {
+            tasks = JSON.parse(savedTasks);
+        }
+    }
+
     function addTask() {
         const text = taskInput.value.trim();
         if (!text) {
@@ -60,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         tasks.unshift(newTask); // Add to beginning
+        saveTasks(); // Save tasks whenever a task is added
         
         // Reset input
         taskInput.value = '';
@@ -76,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return task;
         });
+        saveTasks(); // Save tasks whenever a task is marked as completed or incomplete
         updateStats();
         renderTasks();
     }
@@ -86,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setTimeout(() => {
             tasks = tasks.filter(task => task.id !== id);
+            saveTasks(); // Save tasks whenever a task is deleted
             updateStats();
             renderTasks();
         }, 300);
