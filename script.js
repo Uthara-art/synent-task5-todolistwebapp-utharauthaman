@@ -4,9 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFilter = 'all';
     let currentSearch = '';
 
-    // Load saved tasks from localStorage automatically when the application starts
-    loadTasks();
-
     // DOM Elements
     const taskInput = document.getElementById('task-input');
     const priorityInput = document.getElementById('priority-input');
@@ -16,6 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyState = document.getElementById('empty-state');
     const searchInput = document.getElementById('search-input');
     const filterBtns = document.querySelectorAll('.filter-btn');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+
+    // Initialization
+    loadTasks();
+    loadTheme();
 
     // Stats Elements
     const statTotal = document.querySelector('#stat-total .stat-number');
@@ -44,6 +46,35 @@ document.addEventListener('DOMContentLoaded', () => {
             renderTasks();
         });
     });
+
+    // Theme logic
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('taskMasterTheme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+            if (themeToggleBtn) themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        } else {
+            document.body.classList.remove('light-theme');
+            if (themeToggleBtn) themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        }
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        
+        if (isLight) {
+            localStorage.setItem('taskMasterTheme', 'light');
+            themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        } else {
+            localStorage.setItem('taskMasterTheme', 'dark');
+            themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        }
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', toggleTheme);
+    }
 
     // Core Functions
     

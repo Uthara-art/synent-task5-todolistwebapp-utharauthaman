@@ -10,10 +10,26 @@
     --danger-color: #ef4444;
     --warning-color: #f59e0b;
     --border-color: #334155;
+    --input-bg: rgba(15, 23, 42, 0.5);
     
     --priority-low: #3b82f6;
     --priority-med: #f59e0b;
     --priority-high: #ef4444;
+}
+
+body.light-theme {
+    --bg-color: #f8fafc;
+    --container-bg: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --accent-color: #2563eb;
+    --accent-hover: #1d4ed8;
+    --success-color: #059669;
+    --danger-color: #dc2626;
+    --warning-color: #d97706;
+    --border-color: #e2e8f0;
+    --input-bg: rgba(15, 23, 42, 0.05);
 }
 
 * {
@@ -71,6 +87,34 @@ header h1 {
 header p {
     color: var(--text-secondary);
     font-size: 1.1rem;
+}
+
+.theme-btn {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-50%) scale(1.1);
+}
+
+body.light-theme .theme-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 /* Stats Section */
@@ -139,7 +183,7 @@ header p {
 
 .main-input input {
     width: 100%;
-    background: rgba(15, 23, 42, 0.5);
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
     padding: 1.25rem;
     border-radius: 0.75rem;
@@ -167,7 +211,7 @@ header p {
 
 .input-group select, .input-group input[type="date"] {
     width: 100%;
-    background: rgba(15, 23, 42, 0.5);
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
     padding: 0.75rem 1rem;
     border-radius: 0.75rem;
@@ -186,6 +230,10 @@ header p {
 ::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
+}
+
+body.light-theme ::-webkit-calendar-picker-indicator {
+    filter: invert(0.2);
 }
 
 #add-btn {
@@ -242,7 +290,7 @@ header p {
 
 .search-bar input {
     width: 100%;
-    background: rgba(15, 23, 42, 0.5);
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
     padding: 0.75rem 1rem 0.75rem 2.5rem;
     border-radius: 2rem;
