@@ -36,10 +36,10 @@ To_do_list/
 ## 5. Screenshots
 
 ### Adult Mode
-![Adult Mode](screenshots/Screenshot_12-6-2026_131931_.jpeg)
+![Adult Mode](screenshots/Screenshot_12-6-2026_13191_.jpeg)
 
 ### Kids Mode
-![Kids Mode](screenshots/Screenshot_12-6-2026_132120_.jpeg)
+![Kids Mode](screenshots/Screenshot_12-6-2026_131931_.jpeg)
 
 ## 6. Installation and Usage
 
