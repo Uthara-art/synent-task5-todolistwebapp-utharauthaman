@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMaster Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1><i class="fa-solid fa-check-double"></i> TaskMaster</h1>
+            <p>Organize your work, effortlessly.</p>
+        </header>
+
+        <section class="stats-container">
+            <div class="stat-card" id="stat-total">
+                <div class="stat-icon"><i class="fa-solid fa-list"></i></div>
+                <div class="stat-info">
+                    <h3>Total Tasks</h3>
+                    <p class="stat-number">0</p>
+                </div>
+            </div>
+            <div class="stat-card" id="stat-completed">
+                <div class="stat-icon"><i class="fa-solid fa-check-circle"></i></div>
+                <div class="stat-info">
+                    <h3>Completed</h3>
+                    <p class="stat-number">0</p>
+                </div>
+            </div>
+            <div class="stat-card" id="stat-pending">
+                <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="stat-info">
+                    <h3>Pending</h3>
+                    <p class="stat-number">0</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="input-section">
+            <div class="input-group main-input">
+                <input type="text" id="task-input" placeholder="What needs to be done?" autocomplete="off">
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <select id="priority-input">
+                        <option value="low">Low Priority</option>
+                        <option value="medium" selected>Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <input type="date" id="date-input">
+                </div>
+                <button id="add-btn"><i class="fa-solid fa-plus"></i> Add Task</button>
+            </div>
+        </section>
+
+        <section class="controls-section">
+            <div class="search-bar">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search tasks...">
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="pending">Pending</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+        </section>
+
+        <section class="task-list-container">
+            <ul id="task-list">
+                <!-- Tasks will be injected here -->
+            </ul>
+            <div class="empty-state" id="empty-state">
+                <i class="fa-regular fa-clipboard"></i>
+                <p>No tasks found.</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
