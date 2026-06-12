@@ -45,7 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Core Functions
     function addTask() {
         const text = taskInput.value.trim();
-        if (!text) return;
+        if (!text) {
+            alert('Please enter a task description.');
+            return;
+        }
 
         const newTask = {
             id: Date.now().toString(),
@@ -75,6 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         updateStats();
         renderTasks();
+    }
+
+    function deleteTask(id, element) {
+        // Animate out
+        element.style.animation = 'slideOut 0.3s ease forwards';
+        
+        setTimeout(() => {
+            tasks = tasks.filter(task => task.id !== id);
+            updateStats();
+            renderTasks();
+        }, 300);
     }
 
     function getFilteredTasks() {
@@ -148,11 +162,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span><i class="fa-regular fa-calendar"></i> ${dateString}</span>
                         </div>
                     </div>
+                    <button class="delete-btn" title="Delete Task">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
                 `;
 
                 // Add event listeners to generated elements
                 const checkbox = li.querySelector('.task-checkbox');
                 checkbox.addEventListener('change', () => toggleTask(task.id));
+
+                const delBtn = li.querySelector('.delete-btn');
+                delBtn.addEventListener('click', () => deleteTask(task.id, li));
 
                 taskList.appendChild(li);
             });
